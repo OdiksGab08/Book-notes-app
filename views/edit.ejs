@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Book</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="container">
+  <h1>✏️ Edit Book</h1>
+
+  <form action="/edit/<%= book.id %>" method="POST">
+    <input type="text" name="title" placeholder="Book Title" value="<%= book.title %>" required />
+    <input type="text" name="author" placeholder="Author" value="<%= book.author %>" required />
+    <input type="text" name="cover_url" placeholder="Cover Image URL" value="<%= book.cover_url %>" />
+    <input type="number" name="rating" min="1" max="5" placeholder="Rating (1-5)" value="<%= book.rating %>" />
+    <input type="date" name="date_read" value="<%= book.date_read ? book.date_read.toISOString().split('T')[0] : '' %>" />
+    <textarea name="notes" rows="4" placeholder="Your Notes..."><%= book.notes %></textarea>
+    <div style="display:flex; gap:10px; margin-top:10px;">
+      <button type="submit">💾 Update</button>
+      <a href="/">⬅ Cancel</a>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>

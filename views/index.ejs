@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Books</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="container">
+  <h1>📚 My Book Vault</h1>
+
+  <div class="top-bar">
+    <a href="/add">➕ Add Book</a>
+    <form action="/" method="GET">
+      <input type="text" name="search" placeholder="Search books..." value="<%= search %>" />
+      <button type="submit">🔍</button>
+    </form>
+  </div>
+
+  <p>
+    Sort:
+    <a href="/?sort=rating">⭐</a>
+    <a href="/?sort=recent">📅</a>
+    <a href="/?sort=title">🔤</a>
+  </p>
+
+  <!-- Skeleton Loading -->
+  <div id="skeletons" class="books">
+    <% for(let i=0; i<6; i++) { %>
+      <div class="book-card skeleton"></div>
+    <% } %>
+  </div>
+
+  <% if (books.length === 0) { %>
+    <div class="empty">
+      <p>No books found 📭</p>
+    </div>
+  <% } %>
+
+  <div class="books">
+    <% books.forEach(book => { %>
+      <div class="book-card" onclick="openModal('<%= book.title %>', '<%= book.author %>', '<%= book.notes %>')">
+        <% if (book.cover_url) { %>
+          <img src="<%= book.cover_url %>" />
+        <% } %>
+        <h2><%= book.title %></h2>
+        <p><strong><%= book.author %></strong></p>
+        <p>⭐ <%= book.rating || "N/A" %></p>
+        <p><%= book.notes %></p>
+        <div class="actions">
+          <a href="/edit/<%= book.id %>">✏️</a>
+          <form action="/delete/<%= book.id %>" method="POST">
+            <button type="submit">❌</button>
+          </form>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    <% if(page > 1){ %>
+      <a href="/?page=<%= page-1 %>">⬅</a>
+    <% } %>
+    <span>Page <%= page %></span>
+    <% if(books.length === 6){ %>
+      <a href="/?page=<%= page+1 %>">➡</a>
+    <% } %>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div id="modal" class="modal hidden">
+  <div class="modal-content">
+    <span onclick="closeModal()">✖</span>
+    <h2 id="modal-title"></h2>
+    <p id="modal-author"></p>
+    <p id="modal-notes"></p>
+  </div>
+</div>
+
+<script src="/script.js"></script>
+</body>
+</html>
